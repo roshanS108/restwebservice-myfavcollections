@@ -17,7 +17,7 @@ public class WebSecurityConfigure {
                 .roles("Owner")
                 .build();
         UserDetails guest = User.builder()
-                .username("guest")
+                .username("Guest")
                 .password("{noop}test123")
                 .roles("Guest")
                 .build();
@@ -29,6 +29,7 @@ public class WebSecurityConfigure {
                 configurer
                         .requestMatchers(HttpMethod.GET, "/book/favoriteBooks").hasRole("Guest")
                         .requestMatchers(HttpMethod.GET, "/book/favoriteBooks/**").hasRole("Guest")
+                        .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("Guest")
                         .requestMatchers(HttpMethod.POST, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.PUT, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.DELETE, "/book/favoriteBooks/**").hasRole("Owner")

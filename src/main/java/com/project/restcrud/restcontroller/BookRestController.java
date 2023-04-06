@@ -3,15 +3,11 @@ import com.project.restcrud.entity.Book;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/book")
 public class BookRestController {
-
-    private  BookService bookService;
+    private BookService bookService;
     @Autowired
     public BookRestController(BookService theBookService){
         this.bookService = theBookService;
@@ -21,13 +17,12 @@ public class BookRestController {
     public List<Book> findAll(){
         return bookService.findAll();
     }
-
     @GetMapping("/favoriteBooks/{bookId}")
     public Book getBooks(@PathVariable int bookId){
 
         Book theBook = bookService.findById(bookId);
         if (theBook == null){
-            throw new RuntimeException("Employee id not found - " + bookId);
+            throw new RuntimeException("Book id not found - " + bookId);
         }
         return theBook;
     }
@@ -44,11 +39,9 @@ public class BookRestController {
         Book tempBook = bookService.saveBook(theBook);
         return tempBook;
     }
-
     // adding a delete mapping to delete book from database
     @DeleteMapping("/favoriteBooks/{bookId}")
     public String deleteBook(@PathVariable int bookId){
-
         Book theBook = bookService.findById(bookId);
         //throw exception if the book variable is null;
         if(theBook == null){
@@ -57,6 +50,17 @@ public class BookRestController {
             bookService.deleteById(bookId);
         }
         return "Deleted book id is: " + bookId;
+    }
+    // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
+    @GetMapping("/getBookList/{bookName}")
+    public Book theBook(@PathVariable String bookName){
+        System.out.println("INCOMING NAME : " + bookName);
+
+        Book theBook = bookService.findByName(bookName);
+        if(theBook == null){
+            throw new RuntimeException("Book name not found - " + bookName);
+        }
+        return theBook;
 
     }
 
