@@ -61,12 +61,34 @@ public class BookRestController {
             throw new RuntimeException("Book name not found - " + bookName);
         }
         return theBook;
-
+    }
+    //adding search author name functionality for different param to get same data
+    @GetMapping("/getBookList/search/author/{authorName}")
+    public Book searchBookByAuthor(@PathVariable String authorName){
+        Book theBook = bookService.findByBookAuthor(authorName);
+        if(theBook == null){
+            throw new RuntimeException("This Book author name not found with - " + authorName);
+        }
+        return theBook;
+    }
+    //adding search isbn functionality for different param to get same data
+    @GetMapping("/getBookList/search/isbn/{isbn}")
+    public Book searchBookByAISBN(@PathVariable String isbn){
+        Book theBook = bookService.findByBookAuthor(isbn);
+        if(theBook == null){
+            throw new RuntimeException("This Book isbn not found - " + isbn);
+        }
+        return theBook;
     }
 
-
-
-
-
+    //adding search genre functionality for different param to get same data
+    @GetMapping("/getBookList/search/genre/{genre}")
+    public Book searchBookByGenre(@PathVariable String genre){
+        Book theBook = bookService.findBookByGenre(genre);
+        if(theBook == null){
+            throw new RuntimeException("This Book not found - " + genre);
+        }
+        return theBook;
+    }
 
 }

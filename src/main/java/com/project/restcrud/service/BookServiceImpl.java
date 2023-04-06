@@ -1,24 +1,21 @@
 package com.project.restcrud.service;
-
 import com.project.restcrud.entity.Book;
 import com.project.restcrud.jparepository.MyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class BookServiceImpl implements BookService{
 
-    private MyRepository<Book> bookService;
+    private MyRepository bookService;
 
     @Autowired
-    public BookServiceImpl(MyRepository<Book> bookService){
+    public BookServiceImpl(MyRepository bookService){
         this.bookService = bookService;
     }
-
     @Override
     public List<Book> findAll() {
         return bookService.findAll();
@@ -45,5 +42,46 @@ public class BookServiceImpl implements BookService{
     @Override
     public void deleteById(int theId) {
         bookService.deleteById(theId);
+    }
+
+    @Override
+    public Book findByName(String name) {
+        Optional<Book> theResult = Optional.ofNullable(bookService.findByBookNameIgnoreCase(name));
+//        Book theResult = bookService.findByName(name);
+
+        Book theBook = null;
+        if(theResult.isPresent()){
+            theBook = theResult.get();
+        }
+        return theBook;
+    }
+    @Override
+    public Book findByBookAuthor(String authorName) {
+
+        Optional<Book> theResult = Optional.ofNullable(bookService.findBookByAuthorNameIgnoreCase(authorName));
+        Book theBook = null;
+        if(theResult.isPresent()){
+            theBook = theResult.get();
+        }
+        return theBook;
+    }
+    @Override
+    public Book findBookByIsbn(String bookIsbn) {
+        Optional<Book> theResult = Optional.ofNullable(bookService.findBookByISBNIgnoreCase(bookIsbn));
+        Book theBook = null;
+        if(theResult.isPresent()){
+            theBook = theResult.get();
+        }
+        return theBook;
+    }
+
+    @Override
+    public Book findBookByGenre(String genre) {
+        Optional<Book> theResult = Optional.ofNullable(bookService.findBookByISBNIgnoreCase(genre));
+        Book theBook = null;
+        if(theResult.isPresent()){
+            theBook = theResult.get();
+        }
+        return theBook;
     }
 }
