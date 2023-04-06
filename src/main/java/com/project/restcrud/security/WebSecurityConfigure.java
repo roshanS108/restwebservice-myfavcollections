@@ -30,9 +30,11 @@ public class WebSecurityConfigure {
                         .requestMatchers(HttpMethod.GET, "/book/favoriteBooks").hasRole("Guest")
                         .requestMatchers(HttpMethod.GET, "/book/favoriteBooks/**").hasRole("Guest")
                         .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("Guest")
+                        .requestMatchers(HttpMethod.GET, "/book/getBookList/search/**").hasRole("Guest")
                         .requestMatchers(HttpMethod.POST, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.PUT, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.DELETE, "/book/favoriteBooks/**").hasRole("Owner")
+
         );
         //use http basic authentication
         http.httpBasic();
@@ -40,5 +42,6 @@ public class WebSecurityConfigure {
         http.csrf().disable();
         return http.build();
     }
+
 
 }
