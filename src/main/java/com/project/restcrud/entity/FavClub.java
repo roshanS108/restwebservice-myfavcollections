@@ -1,9 +1,8 @@
 package com.project.restcrud.entity;
-
 import jakarta.persistence.*;
-
+import java.util.List;
 @Entity
-@Table(name = "Book")
+@Table(name = "FavClub")
 public class FavClub {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +20,38 @@ public class FavClub {
 
     @Column(name = "awayKitColor")
     private String away_kit_color;
+
+    @Column(name = "founder_of_club")
+    private String founderOfClub;
+
+    private List<Managers> allManagers;
+
+    @Column(name = "current_Manager")
+    private String currentManager;
+
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "Current_Captain")
+    private String currentCaptain;
+
     public FavClub(){
 
     }
-    public FavClub(String clubName, int originDate, String homeKitColor, String away_kit_color) {
+    public FavClub(String clubName, int originDate, String homeKitColor, String away_kit_color,
+                   String founderOfClub, List<Managers> allManagers, String currentManager,
+                   String location, String currentCaptain) {
         this.clubName = clubName;
         this.originDate = originDate;
         this.homeKitColor = homeKitColor;
         this.away_kit_color = away_kit_color;
-    }
+        this.founderOfClub = founderOfClub;
+        this.allManagers = allManagers;
+        this.currentManager = currentManager;
+        this.location = location;
+        this.currentCaptain = currentCaptain;
 
+    }
     public int getId() {
         return id;
     }
@@ -80,5 +101,45 @@ public class FavClub {
                 ", homeKitColor='" + homeKitColor + '\'' +
                 ", away_kit_color='" + away_kit_color + '\'' +
                 '}';
+    }
+
+    public String getFounderOfClub() {
+        return founderOfClub;
+    }
+
+    public void setFounderOfClub(String founderOfClub) {
+        this.founderOfClub = founderOfClub;
+    }
+
+    public List<Managers> getAllManagers() {
+        return allManagers;
+    }
+
+    public void setAllManagers(List<Managers> allManagers) {
+        this.allManagers = allManagers;
+    }
+
+    public String getCurrentManager() {
+        return currentManager;
+    }
+
+    public void setCurrentManager(String currentManager) {
+        this.currentManager = currentManager;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCurrentCaptain() {
+        return currentCaptain;
+    }
+
+    public void setCurrentCaptain(String currentCaptain) {
+        this.currentCaptain = currentCaptain;
     }
 }
