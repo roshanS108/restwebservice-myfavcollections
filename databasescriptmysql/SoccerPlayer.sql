@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS `soccer_player`(
     `full_name` varchar(45) default null,
     `current_club` varchar(45)default null,
     `position_of_the_player` varchar(45)default null,
-    `numberOfTitleOwn` varchar(45)default null,
+    `numberOfTitleOwn` int default null,
+    `name_of_tournament` varchar(233) default null,
+
      PRIMARY KEY(`id`)
 
   )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
