@@ -1,6 +1,6 @@
 package com.project.restcrud.entity;
 import jakarta.persistence.*;
-import java.sql.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -20,7 +20,7 @@ public class Book {
     private String publisher;
 
     @Column(name = "book_isbn")
-    private String isbn;
+    private String ISBN;
 
     @Column(name = "book_release_date")
     private String publicationDate;
@@ -35,7 +35,7 @@ public class Book {
         this.bookName = bookName;
         this.authorName = authorName;
         this.publisher = publisher;
-        this.isbn = isbn;
+        this.ISBN = isbn;
         this.publicationDate = publicationDate;
         this.genre = genre;
     }
@@ -48,12 +48,12 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public String getISBN() {
+        return ISBN;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
     public String getPublicationDate() {

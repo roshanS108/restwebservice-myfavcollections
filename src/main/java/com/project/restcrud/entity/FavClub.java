@@ -32,8 +32,10 @@ public class FavClub {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "Current_Captain")
+    @Column(name = "Captain")
     private String currentCaptain;
+
+    private List<Honors> honorsList;
 
     public FavClub(){
 

@@ -20,21 +20,24 @@ public class SoccerPlayer {
     private String current_Club;
 
     @Column(name = "position")
-    private String position;
+    private String position_of_the_Player;
 
     @Column(name = "number_of_tile_won")
     private int numberOfTitleOwn;
+
+    private String nameOfTournament;
 
     public SoccerPlayer(){
 
     }
     public SoccerPlayer(int id, String fullName,String current_Club,String position,
-                           int numberOfTitleOwn) {
+                           int numberOfTitleOwn, String nameOfTournament) {
         this.id = id;
         this.fullName = fullName;
         this.current_Club = current_Club;
-        this.position = position;
+        this.position_of_the_Player = position;
         this.numberOfTitleOwn = numberOfTitleOwn;
+        this.nameOfTournament = nameOfTournament;
     }
     public int getId() {
         return id;
@@ -67,10 +70,10 @@ public class SoccerPlayer {
     }
 
     public String getPosition() {
-        return position;
+        return position_of_the_Player;
     }
     public void setPosition(String position) {
-        this.position = position;
+        this.position_of_the_Player = position;
     }
     public int getNumberOfTitleOwn() {
         return numberOfTitleOwn;
@@ -78,16 +81,31 @@ public class SoccerPlayer {
     public void setNumberOfTitleOwn(int numberOfTitleOwn) {
         this.numberOfTitleOwn = numberOfTitleOwn;
     }
+    public String getPosition_of_the_Player() {
+        return position_of_the_Player;
+    }
+
+    public void setPosition_of_the_Player(String position_of_the_Player) {
+        this.position_of_the_Player = position_of_the_Player;
+    }
+    public String getNameOfTournament() {
+        return nameOfTournament;
+    }
+
+    public void setNameOfTournament(String nameOfTournament) {
+        this.nameOfTournament = nameOfTournament;
+    }
 
     @Override
     public String toString() {
-        return "favSoccerPlayer{" +
+        return "SoccerPlayer{" +
                 "id=" + id +
                 ", age=" + age +
                 ", fullName='" + fullName + '\'' +
                 ", current_Club='" + current_Club + '\'' +
-                ", position='" + position + '\'' +
+                ", position_of_the_Player='" + position_of_the_Player + '\'' +
                 ", numberOfTitleOwn=" + numberOfTitleOwn +
+                ", nameOfTournament='" + nameOfTournament + '\'' +
                 '}';
     }
 }
