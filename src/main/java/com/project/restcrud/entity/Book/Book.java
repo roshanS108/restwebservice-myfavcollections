@@ -1,4 +1,4 @@
-package com.project.restcrud.entity;
+package com.project.restcrud.entity.Book;
 import jakarta.persistence.*;
 
 @Entity

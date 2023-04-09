@@ -1,10 +1,10 @@
 package com.project.restcrud.service;
 
-import com.project.restcrud.entity.Book;
+import com.project.restcrud.entity.Book.Book;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 @Service
 public interface BookService {
 

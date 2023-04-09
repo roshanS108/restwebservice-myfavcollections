@@ -1,5 +1,5 @@
 package com.project.restcrud.restcontroller;
-import com.project.restcrud.entity.Book;
+import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

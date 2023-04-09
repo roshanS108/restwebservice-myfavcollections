@@ -1,6 +1,6 @@
 package com.project.restcrud.dao;
 
-import com.project.restcrud.entity.Book;
+import com.project.restcrud.entity.Book.Book;
 
 import java.util.List;
 

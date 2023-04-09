@@ -1,5 +1,5 @@
 package com.project.restcrud.service;
-import com.project.restcrud.entity.Book;
+import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.jparepository.MyRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

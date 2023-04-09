@@ -1,6 +1,6 @@
 package com.project.restcrud.dao;
 
-import com.project.restcrud.entity.Book;
+import com.project.restcrud.entity.Book.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;

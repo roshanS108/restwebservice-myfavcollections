@@ -1,4 +1,5 @@
 package com.project.restcrud.entity;
+import com.project.restcrud.entity.Club.Managers.Managers;
 import jakarta.persistence.*;
 import java.util.List;
 @Entity
@@ -35,7 +36,6 @@ public class FavClub {
     @Column(name = "Captain")
     private String currentCaptain;
 
-    private List<Honors> honorsList;
 
     public FavClub(){
 
