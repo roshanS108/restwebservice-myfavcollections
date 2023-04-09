@@ -17,4 +17,5 @@
    CONSTRAINT `champion_league_winner_ibfk_1` FOREIGN KEY (`Champion_League_Win`) REFERENCES `honors` (`id`),
    CONSTRAINT `fk_club_winnerr` FOREIGN KEY (`club_that_time`) REFERENCES `club` (`id`)
 
+
 )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
