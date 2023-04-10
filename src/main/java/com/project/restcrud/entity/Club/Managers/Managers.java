@@ -1,5 +1,6 @@
 package com.project.restcrud.entity.Club.Managers;
 
+import com.project.restcrud.entity.Club.Awards.Honors_Of_Club;
 import jakarta.persistence.*;
 
 //this entity represents all the managers they coached
@@ -26,6 +27,10 @@ public class Managers {
 
     @Column(name = "title_won")
     private int numberOfTitleWon;
+
+    @OneToOne
+    @JoinColumn(name = "CL_Manager_Win")
+    private Honors_Of_Club honors;
 
     public Managers(int id, String name, int age, String nationality, int year_Managed, int numberOfTitleWon) {
         this.id = id;
