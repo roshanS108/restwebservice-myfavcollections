@@ -1,7 +1,4 @@
 
-
-
-
 USE `my_fav_collection`;
 CREATE TABLE IF NOT EXISTS  `club`(
 
