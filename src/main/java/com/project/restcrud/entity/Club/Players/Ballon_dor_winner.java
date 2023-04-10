@@ -32,8 +32,92 @@ import jakarta.persistence.*;
     @Column(name = "champion_league_win")
     private int championLeagueWin;
 
+    //club where he won the ballon dor....
     @Column(name = "club", nullable = false)
     private int club;
 
+   public Ballon_dor_winner(String age, String name, String nationality, int goalsThatSeason,
+                            int assistsThatSeason, int years, int championLeagueWin, int club) {
 
+      this.age = age;
+      this.name = name;
+      this.nationality = nationality;
+      this.goalsThatSeason = goalsThatSeason;
+      this.assistsThatSeason = assistsThatSeason;
+      this.years = years;
+      this.championLeagueWin = championLeagueWin;
+      this.club = club;
+   }
+
+   public int getId() {
+      return id;
+   }
+
+   public void setId(int id) {
+      this.id = id;
+   }
+
+   public String getAge() {
+      return age;
+   }
+
+   public void setAge(String age) {
+      this.age = age;
+   }
+
+   public String getName() {
+      return name;
+   }
+
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public String getNationality() {
+      return nationality;
+   }
+
+   public void setNationality(String nationality) {
+      this.nationality = nationality;
+   }
+
+   public int getGoalsThatSeason() {
+      return goalsThatSeason;
+   }
+
+   public void setGoalsThatSeason(int goalsThatSeason) {
+      this.goalsThatSeason = goalsThatSeason;
+   }
+
+   public int getAssistsThatSeason() {
+      return assistsThatSeason;
+   }
+
+   public void setAssistsThatSeason(int assistsThatSeason) {
+      this.assistsThatSeason = assistsThatSeason;
+   }
+
+   public int getYears() {
+      return years;
+   }
+
+   public void setYears(int years) {
+      this.years = years;
+   }
+
+   public int getChampionLeagueWin() {
+      return championLeagueWin;
+   }
+
+   public void setChampionLeagueWin(int championLeagueWin) {
+      this.championLeagueWin = championLeagueWin;
+   }
+
+   public int getClub() {
+      return club;
+   }
+
+   public void setClub(int club) {
+      this.club = club;
+   }
 }
