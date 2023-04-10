@@ -1,12 +1,5 @@
- DROP DATABASE IF EXISTS `my_fav_collection`;
-CREATE DATABASE `my_fav_collection`;
+
 USE `my_fav_collection`;
-
-
-
-
-
-
 
 CREATE TABLE IF NOT EXISTS `soccer_player`(
 
@@ -23,7 +16,5 @@ CREATE TABLE IF NOT EXISTS `soccer_player`(
 
     FOREIGN KEY (`Champion_League_Win`) REFERENCES `honors`(`id`),
      PRIMARY KEY(`id`)
-
-
 
   )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
