@@ -1,5 +1,8 @@
 package com.project.restcrud.entity.Club.Players;
 
+import com.project.restcrud.entity.Club.Awards.Champion_League_Winner;
+import com.project.restcrud.entity.Club.Awards.Honors_Of_Club;
+import com.project.restcrud.entity.Club.Club;
 import jakarta.persistence.*;
 
 @Entity
@@ -35,6 +38,15 @@ import jakarta.persistence.*;
     //club where he won the ballon dor....
     @Column(name = "club", nullable = false)
     private int club;
+
+    @OneToOne
+    @JoinColumn(name = "club")
+    private Club club1;
+
+    @OneToOne
+    @JoinColumn(name = "champion_league_win")
+    private Honors_Of_Club honors;
+
 
    public Ballon_dor_winner(String age, String name, String nationality, int goalsThatSeason,
                             int assistsThatSeason, int years, int championLeagueWin, int club) {
@@ -117,7 +129,23 @@ import jakarta.persistence.*;
       return club;
    }
 
-   public void setClub(int club) {
+    public Club getClub1() {
+        return club1;
+    }
+
+    public void setClub1(Club club1) {
+        this.club1 = club1;
+    }
+
+    public Honors_Of_Club getHonors() {
+        return honors;
+    }
+
+    public void setHonors(Honors_Of_Club honors) {
+        this.honors = honors;
+    }
+
+    public void setClub(int club) {
       this.club = club;
    }
 }
