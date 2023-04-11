@@ -65,16 +65,17 @@ public class BookRestController {
     //adding search author name functionality for different param to get same data
     @GetMapping("/getBookList/search/author/{authorName}")
     public Book searchBookByAuthor(@PathVariable String authorName){
+        System.out.println("INCOMING AUTHOR NAME : " + authorName);
         Book theBook = bookService.findByBookAuthor(authorName);
         if(theBook == null){
-            throw new RuntimeException("This Book author name not found with - " + authorName);
+            throw new RuntimeException("This Book author name not found - " + authorName);
         }
         return theBook;
     }
     //adding search isbn functionality for different param to get same data
     @GetMapping("/getBookList/search/isbn/{isbn}")
     public Book searchBookByAISBN(@PathVariable String isbn){
-        Book theBook = bookService.findByBookAuthor(isbn);
+        Book theBook = bookService.findBookByIsbn(isbn);
         if(theBook == null){
             throw new RuntimeException("This Book isbn not found - " + isbn);
         }
@@ -86,7 +87,7 @@ public class BookRestController {
     public Book searchBookByGenre(@PathVariable String genre){
         Book theBook = bookService.findBookByGenre(genre);
         if(theBook == null){
-            throw new RuntimeException("This Book not found - " + genre);
+            throw new RuntimeException("This Book with this genre not found - " + genre);
         }
         return theBook;
     }

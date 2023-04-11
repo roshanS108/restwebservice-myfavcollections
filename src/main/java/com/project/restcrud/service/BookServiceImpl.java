@@ -77,7 +77,7 @@ public class BookServiceImpl implements BookService{
 
     @Override
     public Book findBookByGenre(String genre) {
-        Optional<Book> theResult = Optional.ofNullable(bookService.findBookByISBNIgnoreCase(genre));
+        Optional<Book> theResult = Optional.ofNullable(bookService.findBookByGenreIgnoreCase(genre));
         Book theBook = null;
         if(theResult.isPresent()){
             theBook = theResult.get();
