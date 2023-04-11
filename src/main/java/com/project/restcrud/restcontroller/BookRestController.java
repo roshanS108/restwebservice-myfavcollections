@@ -2,6 +2,8 @@ package com.project.restcrud.restcontroller;
 import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
@@ -19,12 +21,15 @@ public class BookRestController {
     }
     @GetMapping("/favoriteBooks/{bookId}")
     public Book getBooks(@PathVariable int bookId){
-
         Book theBook = bookService.findById(bookId);
         if (theBook == null){
             throw new RuntimeException("Book id not found - " + bookId);
         }
         return theBook;
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
     //add new book to the database
     @PostMapping("/favoriteBooks")
@@ -52,7 +57,7 @@ public class BookRestController {
         return "Deleted book id is: " + bookId;
     }
     // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
-    @GetMapping("/getBookList/{bookName}")
+    @GetMapping("/getBookList/search/name/{bookName}")
     public Book theBook(@PathVariable String bookName){
         System.out.println("INCOMING NAME : " + bookName);
 
@@ -70,6 +75,7 @@ public class BookRestController {
         if(theBook == null){
             throw new RuntimeException("This Book author name not found - " + authorName);
         }
+        System.out.println("The author name is: " + authorName);
         return theBook;
     }
     //adding search isbn functionality for different param to get same data
