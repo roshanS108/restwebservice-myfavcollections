@@ -36,6 +36,7 @@ public class BookRestController {
     public Book addBook(@RequestBody Book theBook){
         theBook.setId(0);
         Book tempBook = bookService.saveBook(theBook);
+        System.out.println("This book is saved to the database: " + theBook.getBookName());
         return tempBook;
     }
     //adding a map for updating /books -->put mapping

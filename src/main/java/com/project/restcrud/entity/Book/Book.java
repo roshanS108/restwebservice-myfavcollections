@@ -1,6 +1,5 @@
 package com.project.restcrud.entity.Book;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "Book")
 public class Book {
