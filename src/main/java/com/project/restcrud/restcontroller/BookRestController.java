@@ -1,7 +1,10 @@
 package com.project.restcrud.restcontroller;
+import com.project.restcrud.cache.CacheService;
 import com.project.restcrud.entity.Book.Book;
+import com.project.restcrud.redis_cache_Service.DemoRedisCache;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +13,8 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookRestController {
     private BookService bookService;
+
+    private DemoRedisCache redisCache;
     @Autowired
     public BookRestController(BookService theBookService){
         this.bookService = theBookService;
@@ -17,19 +22,36 @@ public class BookRestController {
     //creating a new end point and exposing a list of Book from database
     @GetMapping("/favoriteBooks")
     public List<Book> findAll(){
+
         return bookService.findAll();
     }
+
+    //find books by Id
     @GetMapping("/favoriteBooks/{bookId}")
     public Book getBooks(@PathVariable int bookId){
+
         Book theBook = bookService.findById(bookId);
         if (theBook == null){
             throw new RuntimeException("Book id not found - " + bookId);
         }
         return theBook;
     }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+    /**
+     * Fetch all the book from the redis cache instead of going to the database or api
+     * @param theBook
+     * @return
+     */
+    @GetMapping("/fetchAllBooks")
+    public ResponseEntity<List<Book>> fetchAllBook(@RequestBody Book theBook){
+        List<Book> bookList;
+        bookList = redisCache.fetchAllBooks();
+        return ResponseEntity.ok(bookList);
+
     }
     //add new book to the database
     @PostMapping("/favoriteBooks")
@@ -57,6 +79,8 @@ public class BookRestController {
         }
         return "Deleted book id is: " + bookId;
     }
+
+
     // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
     @GetMapping("/getBookList/search/name/{bookName}")
     public Book theBook(@PathVariable String bookName){

@@ -1,5 +1,5 @@
 package com.project.restcrud.entity.Club;
-import com.project.restcrud.entity.Club.Managers.Managers;
+
 import jakarta.persistence.*;
 import java.util.List;
 @Entity
@@ -19,7 +19,7 @@ public class Club {
     @Column(name = "founder_of_club")
     private String founderOfClub;
 
-    private List<Managers> allManagers;
+
     @Column(name = "location")
     private String location;
 
@@ -58,6 +58,7 @@ public class Club {
     public void setOriginDate(int originDate) {
         this.originDate = originDate;
     }
+
     @Override
     public String toString() {
         return "Club{" +
@@ -65,7 +66,6 @@ public class Club {
                 ", clubName='" + clubName + '\'' +
                 ", originDate=" + originDate +
                 ", founderOfClub='" + founderOfClub + '\'' +
-                ", allManagers=" + allManagers +
                 ", location='" + location + '\'' +
                 '}';
     }
