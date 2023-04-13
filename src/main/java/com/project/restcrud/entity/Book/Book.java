@@ -1,8 +1,11 @@
 package com.project.restcrud.entity.Book;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+
 @Entity
 @Table(name = "Book")
-public class Book {
+public class Book implements Serializable {
     //define fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
