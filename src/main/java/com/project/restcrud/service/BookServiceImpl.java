@@ -15,7 +15,7 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
     private MyRepository myRepository;
 
     //Normal --> Cache without redis
-    private CacheService cacheService;
+//    private CacheService cacheService;
 
     private RedisTemplate redisTemplate;
 
@@ -33,18 +33,14 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
     @Override
     @Cacheable(value = "finding book by ID")
     public Book findById(int theID) {
-        //if the data is already in the cache memory just return that whatever in the cache memory
-        if(cacheService.containsBookInCache(theID)){
-            System.out.println("the data is already in cache");
-            return cacheService.getBook(theID);
-        }
+
         Optional<Book>theResult = myRepository.findById(theID);
         Book theBook = null;
         //if the data is not  in the cache memory add that data into cache memory.
         if(theResult.isPresent()){
             theBook = theResult.get();
             System.out.println("This method is being called");
-            cacheService.putBook(theID,theBook);
+
             /*Book theBook2 = cacheService.getBook(theID);
             System.out.println("the book name: " + theBook2.getBookName());*/
         }
