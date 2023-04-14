@@ -17,9 +17,9 @@ public class WebSecurityConfigure {
                 .roles("Owner")
                 .build();
         UserDetails guest = User.builder()
-                .username("Guest")
+                .username("guest")
                 .password("{noop}test123")
-                .roles("Guest")
+                .roles("guest")
                 .build();
         return new InMemoryUserDetailsManager(roshan,guest);
     }
@@ -27,13 +27,18 @@ public class WebSecurityConfigure {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/book/favoriteBooks").hasRole("Guest")
-                        .requestMatchers(HttpMethod.GET, "/book/favoriteBooks/**").hasRole("Guest")
-                        .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("Guest")
-                        .requestMatchers(HttpMethod.GET, "/book/getBookList/search/**").hasRole("Guest")
+                        .requestMatchers(HttpMethod.GET, "/book/favoriteBooks").hasRole("guest")
+                        .requestMatchers(HttpMethod.GET, "/book/favoriteBooks/**").hasRole("guest")
+                        .requestMatchers(HttpMethod.POST, "/book/storingBooks").hasRole("guest")
+                        .requestMatchers(HttpMethod.GET, "/book/getBooksFromCache").hasRole("guest")
+                        .requestMatchers(HttpMethod.GET, "/book/getSpecificBook/**").hasRole("guest")
+
+                        .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("guest")
+                        .requestMatchers(HttpMethod.GET, "/book/getBookList/search/**").hasRole("guest")
                         .requestMatchers(HttpMethod.POST, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.PUT, "/book/favoriteBooks").hasRole("Owner")
                         .requestMatchers(HttpMethod.DELETE, "/book/favoriteBooks/**").hasRole("Owner")
+                        .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("Owner")
 
         );
         //use http basic authentication
