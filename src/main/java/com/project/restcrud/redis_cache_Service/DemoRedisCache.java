@@ -8,4 +8,8 @@ import java.util.List;
 public interface DemoRedisCache {
 
     List<Book> fetchAllBooks();
+
+    Book getSpecificBook(Integer id);
+
+    boolean checkIfBooksIsInCache(Integer id);
 }

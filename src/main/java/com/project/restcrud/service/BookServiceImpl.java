@@ -105,6 +105,19 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
         }
         return theBook;
     }
+
+    //demo-rest-controller
+    @Override
+    public boolean saveTheBook(Book theBook) {
+        try{
+            redisTemplate.opsForHash().put(KEY, theBook.getId(), theBook);
+            return true;
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     /*method from interface --> Demo Redis Cache
     * it fetch all the books from the redis cache
     *
@@ -115,4 +128,18 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
         theBook = redisTemplate.opsForHash().values(KEY);
         return theBook;
     }
+
+    @Override
+    public Book getSpecificBook(Integer id) {
+      Book theBook;
+      theBook = (Book)redisTemplate.opsForHash().get(KEY, id.toString());
+      return theBook;
+    }
+
+    @Override
+    public boolean checkIfBooksIsInCache(Integer id) {
+        return redisTemplate.opsForHash().hasKey(KEY, id.toString());
+    }
+
+
 }
