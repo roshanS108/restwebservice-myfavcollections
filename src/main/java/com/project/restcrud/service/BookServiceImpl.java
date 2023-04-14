@@ -67,6 +67,16 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
     public void deleteById(int theId) {
         myRepository.deleteById(theId);
     }
+
+    //creating findByNameRedis to get the data from only the Redis Cache
+    @Override
+    public Book findByNameRedisCache(String name) {
+        Book theBook;
+        theBook = (Book)redisTemplate.opsForHash().get(KEY, name);
+        return theBook;
+
+    }
+
     @Override
     public Book findByName(String name) {
         Optional<Book> theResult = Optional.ofNullable(myRepository.findByBookNameIgnoreCase(name));
@@ -137,8 +147,8 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
     }
 
     @Override
-    public boolean checkIfBooksIsInCache(Integer id) {
-        return redisTemplate.opsForHash().hasKey(KEY, id.toString());
+    public boolean checkIfBooksIsInCache(int id) {
+        return redisTemplate.opsForHash().hasKey(KEY, id);
     }
 
 
