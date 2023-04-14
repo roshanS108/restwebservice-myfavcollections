@@ -3,10 +3,13 @@ import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.redis_cache_Service.DemoRedisCache;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/book")
 public class BookRestController {
@@ -15,8 +18,9 @@ public class BookRestController {
     private DemoRedisCache redisCache;
 
     @Autowired
-    public BookRestController(BookService theBookService){
+    public BookRestController(BookService theBookService, DemoRedisCache demoRedisCache){
         this.bookService = theBookService;
+        this.redisCache = demoRedisCache;
     }
     //creating a new end point and exposing a list of Book from database
     @GetMapping("/favoriteBooks")
@@ -80,11 +84,9 @@ public class BookRestController {
     }
 
     // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
-    @GetMapping("/getBookList/search/name/{bookName}")
+//    @GetMapping("/getBookList/search/name/{bookName}")
     public Book theBook(@PathVariable String bookName){
         System.out.println("INCOMING NAME : " + bookName);
-
-
 
         Book theBook = bookService.findByName(bookName);
         if(theBook == null){
@@ -92,15 +94,24 @@ public class BookRestController {
         }
         return theBook;
     }
-
     //making search functionality /search/name and storing the book name in the redis cache memory
-    public ResponseEntity<Book> searchBookByName(@PathVariable String bookName){
-
-
-
-
+    @GetMapping("/getBookList/search/name/{bookName}")
+    @Cacheable(value = "bookCache", key = "USER")
+    public ResponseEntity<Book> searchBookByName(@RequestBody Book theBook) {
+        Book theBooks = null;
+        Optional<Book> theResult = Optional.ofNullable(bookService.findByName(theBook.getBookName()));
+        //if the data is already in the redis cache immediately return it
+        if (redisCache.checkIfBooksIsInCache(theBook.getId())) {
+            System.out.println("Yes the book is in cache");
+            return ResponseEntity.ok(theBook);
+        }
+        // if the data is not there then get it from the database and store that data into cache.
+        if (theResult.isPresent()){
+            theBooks = theResult.get();
+        bookService.saveTheBook(theBook);
+        }
+            return ResponseEntity.ok(theBooks);
     }
-
 
     //adding search author name functionality for different param to get same data
     @GetMapping("/getBookList/search/author/{authorName}")
