@@ -1,10 +1,8 @@
 package com.project.restcrud.restcontroller;
-import com.project.restcrud.cache.CacheService;
 import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.redis_cache_Service.DemoRedisCache;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +13,7 @@ public class BookRestController {
     private BookService bookService;
 
     private DemoRedisCache redisCache;
+
     @Autowired
     public BookRestController(BookService theBookService){
         this.bookService = theBookService;
@@ -22,11 +21,10 @@ public class BookRestController {
     //creating a new end point and exposing a list of Book from database
     @GetMapping("/favoriteBooks")
     public List<Book> findAll(){
-
         return bookService.findAll();
     }
 
-    //find books by Id
+    //find books by ID
     @GetMapping("/favoriteBooks/{bookId}")
     public Book getBooks(@PathVariable int bookId){
 
@@ -36,7 +34,6 @@ public class BookRestController {
         }
         return theBook;
     }
-
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
@@ -51,9 +48,9 @@ public class BookRestController {
         List<Book> bookList;
         bookList = redisCache.fetchAllBooks();
         return ResponseEntity.ok(bookList);
-
     }
-    //add new book to the database
+
+    //adding new book to the database
     @PostMapping("/favoriteBooks")
     public Book addBook(@RequestBody Book theBook){
         theBook.setId(0);
@@ -61,12 +58,14 @@ public class BookRestController {
         System.out.println("This book is saved to the database: " + theBook.getBookName());
         return tempBook;
     }
+
     //adding a map for updating /books -->put mapping
     @PutMapping("/favoriteBooks")
     public Book updateBook(@RequestBody Book theBook){
         Book tempBook = bookService.saveBook(theBook);
         return tempBook;
     }
+
     // adding a delete mapping to delete book from database
     @DeleteMapping("/favoriteBooks/{bookId}")
     public String deleteBook(@PathVariable int bookId){
@@ -80,11 +79,12 @@ public class BookRestController {
         return "Deleted book id is: " + bookId;
     }
 
-
     // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
     @GetMapping("/getBookList/search/name/{bookName}")
     public Book theBook(@PathVariable String bookName){
         System.out.println("INCOMING NAME : " + bookName);
+
+
 
         Book theBook = bookService.findByName(bookName);
         if(theBook == null){
@@ -92,6 +92,16 @@ public class BookRestController {
         }
         return theBook;
     }
+
+    //making search functionality /search/name and storing the book name in the redis cache memory
+    public ResponseEntity<Book> searchBookByName(@PathVariable String bookName){
+
+
+
+
+    }
+
+
     //adding search author name functionality for different param to get same data
     @GetMapping("/getBookList/search/author/{authorName}")
     public Book searchBookByAuthor(@PathVariable String authorName){
@@ -103,6 +113,7 @@ public class BookRestController {
         System.out.println("The author name is: " + authorName);
         return theBook;
     }
+
     //adding search isbn functionality for different param to get same data
     @GetMapping("/getBookList/search/isbn/{isbn}")
     public Book searchBookByAISBN(@PathVariable String isbn){
@@ -122,5 +133,8 @@ public class BookRestController {
         }
         return theBook;
     }
+
+
+
 
 }
