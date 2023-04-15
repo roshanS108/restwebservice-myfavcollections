@@ -11,7 +11,13 @@ public interface DemoRedisCache {
 
     Book getSpecificBook(Integer id);
 
-    Book findByName(String name);
+    Book findByNameRedisCache(String name);
+
+    Book findByBookById(int id);
+
+    void deleteBook(int id);
+
+
 
     boolean checkIfBooksIsInCache(int id);
 }

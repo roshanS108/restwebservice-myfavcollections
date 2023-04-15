@@ -1,5 +1,4 @@
 package com.project.restcrud.service;
-import com.project.restcrud.cache.CacheService;
 import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.jparepository.MyRepository;
 import com.project.restcrud.redis_cache_Service.DemoRedisCache;
@@ -13,9 +12,6 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService, DemoRedisCache {
     private MyRepository myRepository;
-
-    //Normal --> Cache without redis
-//    private CacheService cacheService;
 
     private RedisTemplate redisTemplate;
 
@@ -74,6 +70,23 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
     }
 
     @Override
+    public Book findByBookById(int id) {
+        Book theBook;
+        theBook = (Book)redisTemplate.opsForHash().get(KEY, id);
+        return theBook;
+    }
+
+    /**
+     * Deleting the book by ID
+     * @param id --> books to be deleted from the redis cache memory
+     * @return
+     */
+    @Override
+    public void deleteBook(int id) {
+        redisTemplate.opsForHash().delete(KEY, id);
+    }
+
+    @Override
     public Book findByName(String name) {
         Optional<Book> theResult = Optional.ofNullable(myRepository.findByBookNameIgnoreCase(name));
 //        Book theResult = bookService.findByName(name);
@@ -114,7 +127,7 @@ public class BookServiceImpl implements BookService, DemoRedisCache {
 
     //demo-rest-controller
     @Override
-    public boolean saveTheBook(Book theBook) {
+    public boolean saveTheBookInCache(Book theBook) {
         try{
             redisTemplate.opsForHash().put(KEY, theBook.getId(), theBook);
             return true;
