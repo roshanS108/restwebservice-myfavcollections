@@ -98,20 +98,21 @@ public class BookRestController {
     @GetMapping("/getBookList/search/name/{bookName}")
 //    @Cacheable(value = "bookCache")
     public ResponseEntity<Book> searchBookByName(@PathVariable String bookName) {
-        Book theBooks = null;
+
         Optional<Book> theResult = Optional.ofNullable(bookService.findByName(bookName));
-        theBooks = bookService.findByName(bookName);
-        System.out.println(theBooks);
+        Book theBook = bookService.findByName(bookName);
+        System.out.println(theBook);
 
         //if the data is already in the  cache immediately return it
-        if (redisCache.checkIfBooksIsInCache(theBooks.getId())) {
+        if (redisCache.checkIfBooksIsInCache(theBook.getId())) {
             System.out.println("Yes the book is in cache");
-            return ResponseEntity.ok(theBooks);
+            return ResponseEntity.ok(theBook);
         }
         // if the data is not there then get it from the database and store that data into cache.
+        Book theBooks = null;
         if (theResult.isPresent()){
             theBooks = theResult.get();
-            System.out.println();
+            System.out.println("the book is not in the cache yet");
             bookService.saveTheBookInCache(theBooks);
         }
             return ResponseEntity.ok(theBooks);
