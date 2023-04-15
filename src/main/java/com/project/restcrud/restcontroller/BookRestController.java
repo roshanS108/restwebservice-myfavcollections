@@ -113,12 +113,19 @@ public class BookRestController {
         return theBook;
     }
     //making search functionality /search/name and storing the book name in the redis cache memory
-    @GetMapping("/getBookList/search/name/{bookName}")
+
 //    @Cacheable(value = "bookCache")
+    @GetMapping("/getBookList/search/name/{bookName}")
     public ResponseEntity<Book> searchBookByName(@PathVariable String bookName) {
 
         Optional<Book> theResult = Optional.ofNullable(bookService.findByName(bookName));
         Book theBook = bookService.findByName(bookName);
+
+        //if the book is not in the redis server immediately return it.
+        if(theBook == null){
+            String message = "The book is not available in the redis server";
+            new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
         System.out.println(theBook);
 
         //if the data is already in the  cache immediately return it
