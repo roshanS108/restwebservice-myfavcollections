@@ -83,6 +83,24 @@ public class BookRestController {
         return "Deleted book id is: " + bookId;
     }
 
+    @GetMapping("/details")
+    public ResponseEntity<List<Book>> lookDetails(){
+        List<Book> book;
+        book = redisCache.fetchAllBooks();
+        return ResponseEntity.ok(book);
+    }
+    //delete the data from redis cache using the book ID
+    @DeleteMapping("/delete/cache/{bookId}")
+    public ResponseEntity<String> deleteData(@PathVariable Long bookId){
+       boolean result = redisCache.deleteBook(bookId);
+       if(result)
+           return ResponseEntity.ok("Book deleted successfully");
+       else
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+
+    }
+
     // Adds search functionality to the API, allowing users to search for specific data based on provided search parameters.
 //    @GetMapping("/getBookList/search/name/{bookName}")
     public Book theBook(@PathVariable String bookName){
@@ -146,8 +164,6 @@ public class BookRestController {
         }
         return theBook;
     }
-
-
 
 
 }
