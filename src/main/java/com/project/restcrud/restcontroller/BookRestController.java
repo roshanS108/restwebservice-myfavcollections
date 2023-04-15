@@ -96,23 +96,26 @@ public class BookRestController {
     }
     //making search functionality /search/name and storing the book name in the redis cache memory
     @GetMapping("/getBookList/search/name/{bookName}")
-    @Cacheable(value = "bookCache", key = "USER")
-    public ResponseEntity<Book> searchBookByName(@RequestBody Book theBook) {
+//    @Cacheable(value = "bookCache")
+    public ResponseEntity<Book> searchBookByName(@PathVariable String bookName) {
         Book theBooks = null;
-        Optional<Book> theResult = Optional.ofNullable(bookService.findByName(theBook.getBookName()));
-        //if the data is already in the redis cache immediately return it
-        if (redisCache.checkIfBooksIsInCache(theBook.getId())) {
+        Optional<Book> theResult = Optional.ofNullable(bookService.findByName(bookName));
+        theBooks = bookService.findByName(bookName);
+        System.out.println(theBooks);
+
+        //if the data is already in the  cache immediately return it
+        if (redisCache.checkIfBooksIsInCache(theBooks.getId())) {
             System.out.println("Yes the book is in cache");
-            return ResponseEntity.ok(theBook);
+            return ResponseEntity.ok(theBooks);
         }
         // if the data is not there then get it from the database and store that data into cache.
         if (theResult.isPresent()){
             theBooks = theResult.get();
-        bookService.saveTheBook(theBook);
+            System.out.println();
+            bookService.saveTheBookInCache(theBooks);
         }
             return ResponseEntity.ok(theBooks);
     }
-
     //adding search author name functionality for different param to get same data
     @GetMapping("/getBookList/search/author/{authorName}")
     public Book searchBookByAuthor(@PathVariable String authorName){
@@ -124,7 +127,6 @@ public class BookRestController {
         System.out.println("The author name is: " + authorName);
         return theBook;
     }
-
     //adding search isbn functionality for different param to get same data
     @GetMapping("/getBookList/search/isbn/{isbn}")
     public Book searchBookByAISBN(@PathVariable String isbn){
@@ -134,7 +136,6 @@ public class BookRestController {
         }
         return theBook;
     }
-
     //adding search genre functionality for different param to get same data
     @GetMapping("/getBookList/search/genre/{genre}")
     public Book searchBookByGenre(@PathVariable String genre){
