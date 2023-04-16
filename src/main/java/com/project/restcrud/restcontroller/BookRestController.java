@@ -3,7 +3,6 @@ import com.project.restcrud.entity.Book.Book;
 import com.project.restcrud.redis_cache_Service.DemoRedisCache;
 import com.project.restcrud.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -91,13 +90,19 @@ public class BookRestController {
     }
     //delete the data from redis cache using the book ID
     @DeleteMapping("/delete/cache/{bookId}")
-    public ResponseEntity<String> deleteData(@PathVariable Long bookId){
-       boolean result = redisCache.deleteBook(bookId);
-       if(result)
-           return ResponseEntity.ok("Book deleted successfully");
-       else
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<String> deleteBookData(@PathVariable int bookId){
 
+        //get the book first check if it is available or not
+        Book theBook = redisCache.findByBookById(bookId);
+        System.out.println(theBook);
+
+        //if book is available delete the book
+        if(theBook != null){
+            redisCache.deleteBook(theBook.getId());
+        }else{
+            return new ResponseEntity<>("The book is not in Redis to delete", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.FOUND);
 
     }
 
@@ -113,18 +118,20 @@ public class BookRestController {
         return theBook;
     }
     //making search functionality /search/name and storing the book name in the redis cache memory
-
-//    @Cacheable(value = "bookCache")
     @GetMapping("/getBookList/search/name/{bookName}")
     public ResponseEntity<Book> searchBookByName(@PathVariable String bookName) {
 
         Optional<Book> theResult = Optional.ofNullable(bookService.findByName(bookName));
         Book theBook = bookService.findByName(bookName);
 
+        if(theBook!=null){
+            System.out.println("book not null");
+        }
         //if the book is not in the redis server immediately return it.
         if(theBook == null){
             String message = "The book is not available in the redis server";
-            new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         }
         System.out.println(theBook);
 
