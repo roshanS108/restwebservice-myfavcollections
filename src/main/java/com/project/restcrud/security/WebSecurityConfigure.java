@@ -32,6 +32,7 @@ public class WebSecurityConfigure {
                         .requestMatchers(HttpMethod.POST, "/book/storingBooks").hasRole("guest")
                         .requestMatchers(HttpMethod.GET, "/book/getBooksFromCache").hasRole("guest")
                         .requestMatchers(HttpMethod.GET, "/book/getSpecificBook/**").hasRole("guest")
+                        .requestMatchers(HttpMethod.DELETE, "/book/delete/cache/**").hasRole("guest")
 
                         .requestMatchers(HttpMethod.GET, "/book/getBookList/**").hasRole("guest")
                         .requestMatchers(HttpMethod.GET, "/book/getBookList/search/**").hasRole("guest")
